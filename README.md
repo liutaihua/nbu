@@ -51,7 +51,7 @@ Every op guy will reinvent wheel(port forwarding, VPN) to make dev and QA's life
 
 ## Analyze the problem
 
-First, we define access a specific app server behind load-balancer as a `binding problem`. Then, we call people who want to acess a specific server as a `applicant`. 
+First, we define access a specific app server behind load-balancer as a `binding problem`. Then, we call people who want to bind to a specific app server as a `applicant`. 
 
 The key observations are:
 
