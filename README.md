@@ -6,16 +6,17 @@
         listen                              80;
         server_name                         foo.com;
 
-        # applicant visit this page to let cookie inserted
+        # applicants visit this page to let cookie inserted
         include                             svrapply.conf;
 
-        # applicant query this page to know which server he is bind to currently.
+        # applicants query this page to know which server he is bind to currently.
         # also contains decode logic
         include                             svrbind.conf;
 
         proxy_set_header                    Host $host;
 
         location / {
+            # binding can be turned at location level
             set                             $svrbind "normal_upstream";
             include                         lua/svrbind_rp.lua;
             proxy_pass                      http://$svrbind;
@@ -71,3 +72,7 @@ It is __simple__:
 ## Implementation
 
 Read the code, it's very short.
+
+## Install
+
+The only requirement is to add nginx-lua-module: https://github.com/chaoslawful/lua-nginx-module
