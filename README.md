@@ -23,9 +23,9 @@ This raises a surprisingly hard problem for
 
 Every op guy will reinvent wheel(port forwarding, VPN) to make dev and QA's life easier. However, under most circumstances, he will bite his own foot. There is just __NO__ free lunch.
 
-## The Solution
+## Define the problem
 
-First, we define `access a specific app server behind load-balancer` as a binding problem. Then, we call people who want to acess a specific server as a __APPLICANT__. 
+First, we define access a specific app server behind load-balancer as a `binding problem`. Then, we call people who want to acess a specific server as a `applicant`. 
 
 The key observations are:
 
@@ -34,3 +34,15 @@ The key observations are:
 2. Each applicant submit their own requests, requests are isolated and remembered.
 
 3. The problem is caused by load-balancer, so it may be good to solve it in load-balancer. Thus, binding problem is equal to a application routing problem and all the routing logic should be implemented in Layer4 or Layer7.
+
+## The Solution
+
+Actually it's simple.
+
+1. Applicant visits a specific page to tell load-balancer(e.,g nginx) which app server to bind to.
+2. Nginx encode the app server and port, then insert a domain cookie.
+3. Applicant visits some page within the previous domain, nginx decode the cookie value and proxy request to the target server.
+
+## Implementation
+
+Just read the code, it's very short.
