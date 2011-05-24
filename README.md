@@ -2,7 +2,31 @@
 
 ## Synopsis
 
+server {
+    listen                              80;
+    server_name                         foo.com;
 
+    # applicant visit this page to let cookie inserted
+    include                             svrapply.conf;
+
+    # applicant query this page to know which server he is bind to currently.
+    # also contains decode logic
+    include                             svrbind.conf;
+
+    proxy_set_header                    Host $host;
+
+    location / {
+        set                             $svrbind "normal_upstream";
+        include                         lua/svrbind_rp.lua;
+        proxy_pass                      http://$svrbind;
+    }
+
+    upstream normal_upstream {
+        server 192.168.0.11;
+        server 192.168.0.12;
+        server 192.168.0.13;
+    }
+}
 
 
 ## Goal
@@ -37,12 +61,12 @@ The key observations are:
 
 ## The Solution
 
-Actually it's simple.
+It is __simple__:
 
 1. Applicant visits a specific page to tell load-balancer(e.,g nginx) which app server to bind to.
-2. Nginx encode the app server and port, then insert a domain cookie.
-3. Applicant visits some page within the previous domain, nginx decode the cookie value and proxy request to the target server.
+2. Nginx encode the `(ip, port)` tuple, then insert a domain cookie including the encoded tuple.
+3. Applicant visits some page in the previous domain, nginx decode the cookie value and examine its expiration date. If the cookie is not expired, proxy request to the target server. Otherwise, apply normal proxy logic.
 
 ## Implementation
 
-Just read the code, it's very short.
+Read the code, it's very short.
