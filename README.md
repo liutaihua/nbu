@@ -1,32 +1,33 @@
-# Nginx Bind Upstream( implemented using nginx-lua-module )
+# Nginx Bind Upstream
 
 ## Synopsis
 
-server {
-    listen                              80;
-    server_name                         foo.com;
+    server {
+        listen                              80;
+        server_name                         foo.com;
 
-    # applicant visit this page to let cookie inserted
-    include                             svrapply.conf;
+        # applicant visit this page to let cookie inserted
+        include                             svrapply.conf;
 
-    # applicant query this page to know which server he is bind to currently.
-    # also contains decode logic
-    include                             svrbind.conf;
+        # applicant query this page to know which server he is bind to currently.
+        # also contains decode logic
+        include                             svrbind.conf;
 
-    proxy_set_header                    Host $host;
+        proxy_set_header                    Host $host;
 
-    location / {
-        set                             $svrbind "normal_upstream";
-        include                         lua/svrbind_rp.lua;
-        proxy_pass                      http://$svrbind;
+        location / {
+            set                             $svrbind "normal_upstream";
+            include                         lua/svrbind_rp.lua;
+            proxy_pass                      http://$svrbind;
+        }
+
+        upstream normal_upstream {
+            server 192.168.0.11;
+            server 192.168.0.12;
+            server 192.168.0.13;
+        }
     }
 
-    upstream normal_upstream {
-        server 192.168.0.11;
-        server 192.168.0.12;
-        server 192.168.0.13;
-    }
-}
 
 
 ## Goal
@@ -47,7 +48,7 @@ This raises a surprisingly hard problem for
 
 Every op guy will reinvent wheel(port forwarding, VPN) to make dev and QA's life easier. However, under most circumstances, he will bite his own foot. There is just __NO__ free lunch.
 
-## Define the problem
+## Analyze the problem
 
 First, we define access a specific app server behind load-balancer as a `binding problem`. Then, we call people who want to acess a specific server as a `applicant`. 
 
