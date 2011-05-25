@@ -6,7 +6,7 @@
         listen                              80;
         server_name                         foo.com;
 
-        # applicants visit this page to let cookie inserted
+        # applicants visit this page to allow cookie inserted
         include                             svrapply.conf;
 
         # applicants query this page to know which server he is bind to currently.
@@ -16,7 +16,7 @@
         proxy_set_header                    Host $host;
 
         location / {
-            # binding can be turned at location level
+            # the context of binding is location*
             set                             $svrbind "normal_upstream";
             include                         lua/svrbind_rp.lua;
             proxy_pass                      http://$svrbind;
@@ -29,6 +29,7 @@
         }
     }
 
+# * there is no http/server context due to the natural of this problem
 
 
 ## Goal
