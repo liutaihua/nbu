@@ -18,7 +18,7 @@
         location / {
             # the context of binding is location*
             set                             $svrbind "normal_upstream";
-            include                         lua/svrbind_rp.lua;
+            rewrite_by_lua_file             lua/svrbind_rp.lua;
             proxy_pass                      http://$svrbind;
         }
 
