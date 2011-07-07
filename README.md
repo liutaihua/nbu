@@ -75,15 +75,16 @@ Finally, nginx will send request the user-defined upstream.
 
 Suppose your website is located at: `http://foo.bar.com`. 
 
-1. visit the following url:
+1.  visit the following url:
 
     http://foo.bar.com/svrapply?server=192.168.2.111:8080
 
-the `server` is the upstream server to be bind to.
+the `server` parameter is the upstream server to be bind to.
 
-2. (optional) verify if the previous binding succeeded or you want to find out which is the current binding server
+2.  (optional) verify if the previous binding succeeded or you want to find out which is the current binding server
 
     http://foo.bar.com/svrbind
+
 
 We are done! Now you can proceed as normal.
 
