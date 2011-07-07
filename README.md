@@ -33,9 +33,12 @@
 
 ## Steps to integrating nbu
 
-1.  add the following line to the server block. It adds an extra location called "svrapply".
+1.  add the following line to the server block. It adds an extra location `location = /svrapply".
 
-        include svrapply.conf
+        server {
+            include svrapply.conf;
+            ......
+        }
 
 
 ## Goal
