@@ -71,6 +71,26 @@
 `normal_upstream` is your original upstream address; `rewrite_by_lua_file` will set svrbind variable to the current binding upstream.
 Finally, nginx will send request the user-defined upstream.
 
+## Steps to use nbu
+
+Suppose your website is located at: `http://foo.bar.com`. 
+
+1. visit the following url:
+
+    http://foo.bar.com/svrapply?server=192.168.2.111:8080
+
+the `server` is the upstream server to be bind to.
+
+2. (optional) verify if the previous binding succeeded or you want to find out which is the current binding server
+
+    http://foo.bar.com/svrbind
+
+We are done! Now you can proceed as normal.
+
+### Note
+
+* For non-browser agent, such as curl, one must explicitly send cookie to server each time.
+
 ## Goal
 
 The sole aim of this little project is to let you forget /etc/hosts
