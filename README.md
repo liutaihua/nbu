@@ -31,6 +31,12 @@
 
     # * there is no http/server context due to the natural of this problem
 
+## Steps to integrating nbu
+
+1.  add the following line to the server block. It adds an extra location called "svrapply".
+
+        include svrapply.conf
+
 
 ## Goal
 
@@ -74,6 +80,5 @@ It is __simple__:
 
 Read the code, it's very short.
 
-## Install
-
-The only requirement is to add nginx-lua-module: https://github.com/chaoslawful/lua-nginx-module
+## Prerequisite
+The only requirement is to add nginx-lua-module: [lua-nginx-module](https://github.com/chaoslawful/lua-nginx-module)
