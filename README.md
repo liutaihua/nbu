@@ -50,7 +50,27 @@
             ......
         }    
 
-3. 
+3. In the location block, replace the address part of proxy_pass/fastcgi_pass with a variable called `$svrbind`. Then add the following two lines:
+
+        server {
+            ......
+            include svrbind.conf;
+            include svrapply.conf;
+            ......
+          
+            location / {
+                # replace upstream addr with $svrbind variable
+                proxy_pass             http://$svrbind;
+
+                # rewrite_by_lua_file will modify $svrbind accordingly
+                set                    $svrbind "normal_upstream";
+                rewrite_by_lua_file    /opt/conf/nginx/lua/svrbind_rp.lua;
+            }
+        }    
+
+`normal_upstream` is your original upstream address; `rewrite_by_lua_file` will set svrbind variable to the current binding upstream.
+Finally, nginx will send request the user-defined upstream.
+
 ## Goal
 
 The sole aim of this little project is to let you forget /etc/hosts
