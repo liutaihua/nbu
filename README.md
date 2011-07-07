@@ -33,14 +33,24 @@
 
 ## Steps to integrating nbu
 
-1.  add the following line to the server block. It adds an extra location `location = /svrapply".
+1. add the following line to the server block. It adds an extra location `location = /svrapply`.
 
         server {
+            ......
             include svrapply.conf;
             ......
         }
 
+2. insert another line into the serverblock. It adds an extra location `location = /svrbind`. When visited, it will display the current binding server.
 
+        server {
+            ......
+            include svrbind.conf;
+            include svrapply.conf;
+            ......
+        }    
+
+3. 
 ## Goal
 
 The sole aim of this little project is to let you forget /etc/hosts
