@@ -1,3 +1,4 @@
+lua_package_path    'lua/?.lua;;';
 server {
     listen                              80;
     server_name                         foo.com;
@@ -9,7 +10,7 @@ server {
 
     location / {
         set                             $svrbind "normal_upstream";
-        rewrite_by_lua_file             lua/svrbind_remote_rewrite_mod.lua;
+        rewrite_by_lua                  'local svrbind_rp = require "svr";local xff = require "xff";svrbind_rp.svrbind_rp();xff.secure_xff()'
         proxy_pass                      http://$svrbind;
     }
 
